@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "stylelint.vscode-stylelint",
+    "hex-ci.stylelint-plus"
+  ],
+  "unwantedRecommendations": []
+}
