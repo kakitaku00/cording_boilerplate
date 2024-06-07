@@ -22,14 +22,14 @@ function getDirectoriesRecursive(path) {
 }
 
 function handleImagemin() {
-  if (!existsSync('dist/assets/images')) return
+  if (!existsSync('dist/images')) return
 
-  const imageDirs = Array(0).concat(getDirectoriesRecursive('dist/assets/images'))
-  const regex = new RegExp('^' + 'dist/assets/images')
+  const imageDirs = Array(0).concat(getDirectoriesRecursive('dist/images'))
+  const regex = new RegExp('^' + 'dist/images')
 
   imageDirs.forEach(async (imageDir) => {
     await imagemin([`${imageDir}/*.{jpeg,jpg,png,gif,svg}`], {
-      destination: join('dist/assets/images', imageDir.replace(regex, '')),
+      destination: join('dist/images', imageDir.replace(regex, '')),
       plugins: [
         imageminMozjpeg({ quality: 95 }), // jpg圧縮
         imageminPngquant({ quality: [0.6, 0.8] }), // png圧縮

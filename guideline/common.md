@@ -28,3 +28,33 @@ https://developer.mozilla.org/ja/docs/Web/HTML/Element/picture
 
 Webフォントを利用する際は、パフォーマンス面で影響がある旨をクライアントに合意した上で利用を行ってください。
 また、読み込む際は、非同期で読み込むよう以下の指定でフォントを読み込んでください。
+
+```html
+<link
+  rel="preload"
+  href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap"
+  as="style"
+  onload="this.rel='stylesheet'"
+/>
+```
+
+## Webフォント最適化
+
+Webフォントの読み込みによるチラツキを抑制するため、`webfontloader`を用いて最適化を推奨しています。
+クライアントの要件次第で以下の対応を行い、Webフォントの読み込みが完了するまで画面を表示させない等の対応を行ってください。
+
+```js
+import WebFont from 'webfontloader'
+
+WebFont.load({
+  google: {
+    families: ['Noto Serif JP', 'Noto Sans JP'], // 読み込むWebフォントを指定
+  },
+})
+```
+
+```css
+html.wf-active {
+  visibility: visible;
+}
+```

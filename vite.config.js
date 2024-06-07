@@ -4,6 +4,7 @@ import autoprefixer from 'autoprefixer'
 import postcssSortMediaQueries from 'postcss-sort-media-queries'
 import postcssUrl from 'postcss-url'
 import liveReload from 'vite-plugin-live-reload'
+import mockServer from 'vite-plugin-mock-server'
 import { readdirSync, statSync } from 'fs'
 import { resolve, join } from 'path'
 import { defineConfig } from 'vite'
@@ -47,6 +48,7 @@ export default defineConfig(() => ({
     outDir: '../dist',
     emptyOutDir: true,
     minify: process.env.MINIFY ? true : false,
+    assetsInlineLimit: 0,
     modulePreload: {
       polyfill: false,
     },
@@ -56,17 +58,17 @@ export default defineConfig(() => ({
         assetFileNames: ({ name }) => {
           const extType = name.split('.')[1]
           if (/ttf|otf|eot|woff|woff2/i.test(extType)) {
-            return `assets/fonts/[name][extname]`
+            return `fonts/[name][extname]`
           } else if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
-            return `assets/images/[name][extname]`
+            return `images/[name][extname]`
           } else if (extType === 'css') {
-            return `assets/css/style.css`
+            return `css/style.css`
           } else {
-            return `assets/[name].[ext]`
+            return `[name].[ext]`
           }
         },
-        entryFileNames: `assets/js/[name].js`,
-        chunkFileNames: `assets/js/[name].js`,
+        entryFileNames: `js/index.js`,
+        chunkFileNames: `js/[name].js`,
       },
     },
   },
@@ -82,6 +84,9 @@ export default defineConfig(() => ({
   },
   plugins: [
     liveReload(['**/*.ejs']),
+    mockServer({
+      urlPrefixes: ['/_api/'],
+    }),
     ViteEjsPlugin((viteConfig) => {
       return {
         root: viteConfig.root,
